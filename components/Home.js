@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View , StyleSheet} from 'react-native';
+import { Text, View , StyleSheet ,Button} from 'react-native';
 import { connect } from "react-redux";
 
 
@@ -27,6 +27,10 @@ class Home extends React.Component
                 <Text>
                     { this.props.Test }
                 </Text>
+                <Button
+                        title="Go to Recipes Screen"
+                        onPress={() => this.props.navigation.navigate('Recipes')}
+                />
             </View>
         )
     }

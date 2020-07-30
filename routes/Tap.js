@@ -1,12 +1,18 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View  , Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from "../components/Home.js";
 import MyRecipes from "../components/MyRecipes.js"
 import { FontAwesome , FontAwesome5 , MaterialIcons} from '@expo/vector-icons';
+import { createStackNavigator } from '@react-navigation/stack';
+import KitchenStackComponent from "../stacks/KitchenStack.js";
 
 const Tab = createBottomTabNavigator();
+
+
+
+
 
 export default function TapNavigation() {
   return (
@@ -30,7 +36,7 @@ export default function TapNavigation() {
       })}
       
       >
-        <Tab.Screen name="Kitchen" component={Home} />
+        <Tab.Screen name="Kitchen" component={KitchenStackComponent} />
         <Tab.Screen name="My Recipes" component={MyRecipes} />
       </Tab.Navigator>
     </NavigationContainer>
