@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View , StyleSheet} from 'react-native';
+import { connect } from "react-redux";
 
 
 class Home extends React.Component
@@ -24,7 +25,7 @@ class Home extends React.Component
         return(
             <View style={Style.mainContaner}>
                 <Text>
-                   Kitchen
+                    { this.props.Test }
                 </Text>
             </View>
         )
@@ -32,7 +33,22 @@ class Home extends React.Component
 }
 
 
-export default Home;
+function mapStateToProps ( state )
+{
+    return{
+        Test:state.Test
+    }
+}
+
+function mapDispatchToProps( dispatch )
+{
+    return{
+        TEST_REQUEST:()=>dispatch({'type':'TEST_REQUEST'})
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);
 
 
 const Style = StyleSheet.create({
