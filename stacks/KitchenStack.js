@@ -8,23 +8,11 @@ import Home from "../components/Home.js"
 function RecipesScreen() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Recipes!</Text>
+        <Text>Recipes! it's a test function </Text>
       </View>
     );
   }
-  
-  function HomeScreen({ navigation }) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Main Screen</Text>
-        <Button
-          title="Go to Recipes Screen"
-          onPress={() => navigation.navigate('Recipes')}
-        />
-      </View>
-    );
-  }
-  
+    
   function MainScreen({ navigation }) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -42,7 +30,11 @@ function RecipesScreen() {
   export default function KitchenStackComponent() {
     return (
       <KitchenStack.Navigator>
-        <KitchenStack.Screen name="Home" component={Home} />
+        <KitchenStack.Screen 
+        name="Home" 
+        component={Home}
+        options={{headerShown: false}}
+        />
         <KitchenStack.Screen name="Recipes" component={RecipesScreen} />
       </KitchenStack.Navigator>
     );
