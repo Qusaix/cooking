@@ -43,7 +43,8 @@ class Home extends React.Component
             { id:7 , name:"Ricep7" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
             { id:8 , name:"Ricep8" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
 
-        ]
+        ],
+        search_input:"",
 
 
          
@@ -65,6 +66,12 @@ class Home extends React.Component
 
     render()
     {
+        let all_ricpes = this.state.randomItems.filter(
+            ( ricpe )=>{
+                return ricpe.name.toLowerCase().indexOf(this.state.search_input.toLowerCase()) !== -1;
+            }
+        )
+
         if( this.state.loading === true )
         {
             return(
@@ -109,13 +116,13 @@ class Home extends React.Component
                     <Form>
                         <Item>
                             <MaterialIcons active name='search' style={{ fontSize:25 }} onPress={()=>{return alert("Hello")}} />
-                            <Input placeholder='Search for Riceps'/>
+                            <Input onChangeText={(value)=>{return this.setState({search_input:value})}} placeholder='Search for Riceps'/>
                         </Item>        
                     </Form>
                     
                     <View style={{ marginTop:"3%" , marginLeft:"1%" , flexDirection:"row" , flexWrap:"wrap"}}>
 
-                        { this.state.randomItems.map((item)=>{
+                        { all_ricpes.map((item)=>{
                             return(
                                 <TouchableOpacity style={{ width:"30%" , height: 130 , borderWidth:0.5 , borderColor:"gray"  , margin:"1%" }}>
                          
