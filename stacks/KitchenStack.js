@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from "../components/Home.js"
-
+import ChosenRecipe from '../components/chosenRecipe.js';
 function RecipesScreen() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -35,7 +35,11 @@ function RecipesScreen() {
         component={Home}
         options={{headerShown: false}}
         />
-        <KitchenStack.Screen name="Recipes" component={RecipesScreen} />
+
+        <KitchenStack.Screen
+         name="Recipes"
+         component={ChosenRecipe}
+        />
       </KitchenStack.Navigator>
     );
   }

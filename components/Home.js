@@ -4,6 +4,13 @@ import { Container, Content, Text, Input, Label , Item , Form } from 'native-bas
 import { Ionicons , MaterialIcons , Entypo } from '@expo/vector-icons';
 import { connect } from "react-redux";
 import * as Font from 'expo-font';
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+    setTestDeviceIDAsync,
+  } from 'expo-ads-admob';
 
 
 class Home extends React.Component
@@ -26,7 +33,7 @@ class Home extends React.Component
              { id:5 , name:"Ricep5" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
          ],
          randomItems:[
-            { id:1 , name:"Ricep1" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
+            { id:1 , name:"منسف اردني " , time:"66min" , image:"https://shabab20.net/wp-content/uploads/2015/05/Jordanian-Mansaf-A.jpg" },
             { id:2 , name:"Ricep2" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
             { id:3 , name:"Ricep3" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
             { id:4 , name:"Ricep4" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
@@ -66,6 +73,7 @@ class Home extends React.Component
 
     render()
     {
+        // filter the ricpes results
         let all_ricpes = this.state.randomItems.filter(
             ( ricpe )=>{
                 return ricpe.name.toLowerCase().indexOf(this.state.search_input.toLowerCase()) !== -1;
@@ -89,6 +97,14 @@ class Home extends React.Component
             <Container style={Style.mainContaner}>
 
                 <Content style={Style.contentContaner} >
+
+                    {/* <Image source={{uri:"https://www.wallpapers4u.org/wp-content/uploads/cheeseburger_sandwich_fast_food_1446_1920x1080.jpg"}} style={{ width:"100%" , height:150, alignSelf:"center" , marginBottom:"2%" }} /> */}
+                    <ImageBackground  source={{uri: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"}}  style={{ width:"100%" , height:150, alignSelf:"center" , marginBottom:"5%" , alignItems:"center" , justifyContent:"center"}} >
+                        <Text style={{ backgroundColor:"orange" , color:"#fff" , fontSize:30 , borderRadius: 9 , backgroundColor: 'transparent'}}>
+                        Welocme To The Kitchen
+                        </Text>
+                     </ImageBackground >
+
                     {/** Lates Riceps Title */}
                     <View style={Style.sectionsTitlesContaner}>
                         <Text style={Style.sectionsTitles} > Latest Riceps Has Been Added </Text>
@@ -113,6 +129,16 @@ class Home extends React.Component
                         />
                     {/** Lates Riceps */}
 
+                    { /** Ad Section */ }
+                    <View style={{ flex:1 , alignItems:"center" , marginTop:"5%" }}>
+                        <AdMobBanner
+                        bannerSize="largeBanner"
+                        adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+                        servePersonalizedAds // true or false
+                        onDidFailToReceiveAdWithError={this.bannerError} 
+                        />
+                    </View>
+                    { /** Ad Section */ }
                     <Form>
                         <Item>
                             <MaterialIcons active name='search' style={{ fontSize:25 }} onPress={()=>{return alert("Hello")}} />
@@ -124,9 +150,9 @@ class Home extends React.Component
 
                         { all_ricpes.map((item)=>{
                             return(
-                                <TouchableOpacity style={{ width:"30%" , height: 130 , borderWidth:0.5 , borderColor:"gray"  , margin:"1%" }}>
+                                <TouchableOpacity  onPress={()=>{return this.props.navigation.navigate('Recipes')}} style={{ width:"30%" , height: 130 , borderWidth:0.5 , borderColor:"gray"  , margin:"1%" }}>
                          
-                                <ImageBackground  source={{uri: "https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg"}}  style={{ height:100 }}>
+                                <ImageBackground  source={{uri: item.image}}  style={{ height:100 }}>
                                     <Text style={Style.card_title}>
                                     { item.name }
                                     </Text>
@@ -177,7 +203,7 @@ function mapDispatchToProps( dispatch )
         TEST_REQUEST:()=>dispatch({'type':'TEST_REQUEST'})
     }
 }
-
+ 
 
 export default connect(mapStateToProps,mapDispatchToProps)(Home);
 
