@@ -7,6 +7,7 @@ import MyRecipes from "../components/MyRecipes.js"
 import { FontAwesome , FontAwesome5 , MaterialIcons} from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import KitchenStackComponent from "../stacks/KitchenStack.js";
+import LikedRecipesStack from "../stacks/LikedRecipesStack.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ export default function TapNavigation() {
       
       >
         <Tab.Screen name="Kitchen" component={KitchenStackComponent} />
-        <Tab.Screen name="My Recipes" component={MyRecipes} />
+        <Tab.Screen name="My Recipes" component={LikedRecipesStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );
