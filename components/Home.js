@@ -25,32 +25,6 @@ class Home extends React.Component
          roundNumber:0,
          zero:0,
          loading:true,
-         riceps:[
-             { id:1 , name:"Ricep1" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-             { id:2 , name:"Ricep2" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-             { id:3 , name:"Ricep3" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-             { id:4 , name:"Ricep4" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-             { id:5 , name:"Ricep5" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-         ],
-         randomItems:[
-            { id:1 , name:"منسف اردني " , time:"66min" , image:"https://shabab20.net/wp-content/uploads/2015/05/Jordanian-Mansaf-A.jpg" },
-            { id:2 , name:"Ricep2" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:3 , name:"Ricep3" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:4 , name:"Ricep4" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:5 , name:"Ricep5" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:6 , name:"Ricep6" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:7 , name:"Ricep7" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:8 , name:"Ricep8" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:1 , name:"Ricep1" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:2 , name:"Ricep2" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:3 , name:"Ricep3" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:4 , name:"Ricep4" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:5 , name:"Ricep5" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:6 , name:"Ricep6" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:7 , name:"Ricep7" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-            { id:8 , name:"Ricep8" , time:"5min" , image:"https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/chorizo-mozarella-gnocchi-bake-cropped.jpg" },
-
-        ],
         search_input:"",
 
 
@@ -66,15 +40,35 @@ class Home extends React.Component
             Roboto: require('../fonts/Roboto-Medium.ttf'),
             Roboto_medium: require('../fonts/Roboto-Regular.ttf'), 
             ...Ionicons.font,
-          });
-          this.setState({loading:false});
+        });
+
+
+        // GETING THE LAST FIVE ELEMET FROM THE ARRAY
+        let amount_of_items = 5;
+        let latest_five_recipes = this.props.all_recipes.slice(0, amount_of_items);
+
+
+
+        // GET LATEST FIVE RECIPES
+        this.props.GET_LATEST_FIVE_RECIPES( latest_five_recipes );
+
+
+        this.setState({loading:false});
+
+    }
+
+
+    chosen_item = ( index )=>{
+        this.props.GET_ITEM(  this.props.all_recipes[index] );
+        this.props.GET_INGREDIENS_WITH_METHODS( index );
+        return this.props.navigation.navigate('Recipes');
     }
 
 
     render()
     {
         // filter the ricpes results
-        let all_ricpes = this.state.randomItems.filter(
+        let all_ricpes = this.props.all_recipes.filter(
             ( ricpe )=>{
                 return ricpe.name.toLowerCase().indexOf(this.state.search_input.toLowerCase()) !== -1;
             }
@@ -103,6 +97,9 @@ class Home extends React.Component
                         <Text style={{ backgroundColor:"orange" , color:"#fff" , fontSize:30 , borderRadius: 9 , backgroundColor: 'transparent'}}>
                         Welocme To The Kitchen
                         </Text>
+                        <Text style={{ backgroundColor:"orange" , color:"#fff" , fontSize:15 , borderRadius: 9 , backgroundColor: 'transparent'}}>
+                        New Riceps every month
+                        </Text>
                      </ImageBackground >
 
                     {/** Lates Riceps Title */}
@@ -114,10 +111,10 @@ class Home extends React.Component
                     {/** Lates Riceps */}
                         <FlatList 
                             horizontal={true}
-                            data={this.state.riceps}
+                            data={this.props.latest_recipes}
                             renderItem={({item,index})=>{
                                 return(
-                                    <TouchableOpacity onPress={()=>{this._chosen_plan(item)}} >
+                                    <TouchableOpacity  onPress={()=>{return this.chosen_item(index)}} >
                                         <ImageBackground  source={{uri: item.image}} key={index} style={Style.cards}>
                                             <Text style={Style.card_title}>
                                                     {item.name}
@@ -148,9 +145,9 @@ class Home extends React.Component
                     
                     <View style={{ marginTop:"3%" , marginLeft:"1%" , flexDirection:"row" , flexWrap:"wrap"}}>
 
-                        { all_ricpes.map((item)=>{
+                        { all_ricpes.map((item , index)=>{
                             return(
-                                <TouchableOpacity  onPress={()=>{return this.props.navigation.navigate('Recipes')}} style={{ width:"30%" , height: 130 , borderWidth:0.5 , borderColor:"gray"  , margin:"1%" }}>
+                                <TouchableOpacity  onPress={()=>{return this.chosen_item(index)}} style={{ width:"30%" , height: 130 , borderWidth:0.5 , borderColor:"gray"  , margin:"1%" }}>
                          
                                 <ImageBackground  source={{uri: item.image}}  style={{ height:100 }}>
                                     <Text style={Style.card_title}>
@@ -170,7 +167,7 @@ class Home extends React.Component
 
                         </TouchableOpacity>
                             )
-                        }) }
+                        })}
                         
                        
                     
@@ -193,14 +190,19 @@ class Home extends React.Component
 function mapStateToProps ( state )
 {
     return{
-        Test:state.Test
+        Test:state.Test,
+        latest_recipes:state.latest_recipes,
+        all_recipes:state.all_recipes
     }
 }
 
 function mapDispatchToProps( dispatch )
 {
     return{
-        TEST_REQUEST:()=>dispatch({'type':'TEST_REQUEST'})
+        TEST_REQUEST:()=>dispatch({'type':'TEST_REQUEST'}),
+        GET_LATEST_FIVE_RECIPES:( recipes )=>dispatch({'type':'GET_LATEST_FIVE_RECIPES','recipes':recipes}),
+        GET_ITEM:( item )=>dispatch({ 'type':'GET_ITEM', 'item':item }),
+        GET_INGREDIENS_WITH_METHODS:( index ) =>dispatch({ 'type':'GET_INGREDIENS_WITH_METHODS' , 'index':index })
     }
 }
  

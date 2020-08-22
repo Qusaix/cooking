@@ -8,7 +8,10 @@ import {
     PublisherBanner,
     AdMobRewarded,
     setTestDeviceIDAsync,
-  } from 'expo-ads-admob';
+} from 'expo-ads-admob';
+
+import { connect } from "react-redux";
+
   
 
 class ChosenRecipe extends React.Component
@@ -26,6 +29,9 @@ class ChosenRecipe extends React.Component
 
 
     render(){
+        const recipe = this.props.item;
+        let Image_Http_URL ={ uri:recipe.image };
+
         return(
 
             <Container>
@@ -36,12 +42,12 @@ class ChosenRecipe extends React.Component
                     
                     {/** Image Section */}
                     <View style={{flex:1,flexDirection:"row" , marginLeft:"3%"}}>
-                        <Image source={{uri:this.state.image_url}} style={{ height:90,width:90 , borderRadius:20 }} />
+                        <Image source={Image_Http_URL} style={{ height:90,width:90 , borderRadius:20 }} />
                         {/** About Recipes Section */}
                             <View style={{ marginTop:"2%" }} >
-                                <Text> Name: Cake</Text>
-                                <Text> Country: Jordan</Text>
-                                <Text> Time: 60min</Text>
+                                <Text> Name: { recipe.name }</Text>
+                                <Text> Country: { recipe.country }</Text>
+                                <Text> Time: { recipe.time }</Text>
                             </View>
                         {/** About Recipes Section */}
                     </View>
@@ -65,11 +71,9 @@ class ChosenRecipe extends React.Component
                                 <Text style={{ fontSize:20 ,fontWeight:"bold" , color:"orange"}}>
                                 <MaterialCommunityIcons name="food-variant" size={20}/> Ingredients
                                 </Text>
-                                <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 3 Eggs</Text>
-                                <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 5 Cups of milk</Text>
-                                <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 1 KG Rice</Text>
-                                <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 1 cup Suger</Text>
-                                <Text style={{ fontSize:12 , fontWeight:"bold" }}> - Apple</Text>
+                                    { this.props.current_ingrediens.map((ingredine)=>{ return (
+                                     <Text style={{ fontSize:12 , fontWeight:"bold" }}> - { ingredine }</Text>
+                                    )}) }
                         </Body>
                         </CardItem>
                     </Card>
@@ -82,11 +86,10 @@ class ChosenRecipe extends React.Component
                          <Text style={{ fontSize:20 ,fontWeight:"bold" , color:"orange"}}>
                            <MaterialIcons name="kitchen" size={20}/> Methods
                         </Text>
-                        <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 3 Eggs</Text>
-                        <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 5 Cups of milk</Text>
-                        <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 1 KG Rice</Text>
-                        <Text style={{ fontSize:12 , fontWeight:"bold" }}> - 1 cup Suger</Text>
-                        <Text style={{ fontSize:12 , fontWeight:"bold" }}> - Apple</Text>
+                         {this.props.current_methods.map( ( method )=>{
+                             return(
+                                <Text style={{ fontSize:12 , fontWeight:"bold" }}> - { method } </Text>
+                             )})}
                          </Body>
                         </CardItem>
                     </Card>
@@ -116,6 +119,21 @@ class ChosenRecipe extends React.Component
 
 }
 
+function mapStateToPops ( state ){
+    return{
+        item:state.item,
+        current_ingrediens:state.current_ingrediens,
+        current_methods:state.current_methods,
+    }
+}
+
+function mapDispatchToProps( dispatch )
+{
+    return{
+
+    }
+}
+
 const Style = StyleSheet.create({
     mainContaner:{
         justifyContent:"center",
@@ -124,4 +142,4 @@ const Style = StyleSheet.create({
     }
 })
 
-export default ChosenRecipe;
+export default  connect(mapStateToPops,mapDispatchToProps)(ChosenRecipe);
